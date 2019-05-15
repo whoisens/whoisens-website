@@ -1,0 +1,43 @@
+{
+  "name": "whoisens",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:e2e": "vue-cli-service test:e2e",
+    "test:unit": "vue-cli-service test:unit",
+    "docker-build": "docker build . -t whoisens-website",
+    "docker-restart": "docker stop whoisens-website; docker rm whoisens-website; docker run -dit -p 80:80 -p 443:443 --name whoisens-website whoisens-website",
+    "docker-restart-dev": "docker stop whoisens-website; docker rm whoisens-website; docker run -dit -p 8088:80 -p 44388:443 --name whoisens-website whoisens-website",
+    "docker-deploy": "npm run docker-build && npm run docker-restart",
+    "docker-deploy-dev": "npm run docker-build && npm run docker-restart-dev",
+    "docker-debug": "docker exec -it whoisens-website bash"
+  },
+  "dependencies": {
+    "reset-css": "^4.0.1",
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.1.0",
+    "vue-property-decorator": "^8.1.1",
+    "vue-router": "^3.0.6",
+    "vuex": "^3.1.1",
+    "whoisens-lib": "0.0.7"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@vue/cli-plugin-e2e-cypress": "^3.7.0",
+    "@vue/cli-plugin-pwa": "^3.7.0",
+    "@vue/cli-plugin-typescript": "^3.7.0",
+    "@vue/cli-plugin-unit-mocha": "^3.7.0",
+    "@vue/cli-service": "^3.7.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "chai": "^4.2.0",
+    "compression-webpack-plugin": "^2.0.0",
+    "sass": "^1.20.1",
+    "sass-loader": "^7.1.0",
+    "typescript": "^3.4.5",
+    "vue-template-compiler": "^2.6.10"
+  }
+}

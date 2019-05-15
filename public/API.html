@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#whoisens-rest-api">WhoisENS REST API</a>
+<ul>
+<li><a href="#get-name-owner">Get Name owner</a></li>
+<li><a href="#get-controller-owner">Get Controller owner</a></li>
+<li><a href="#get-expiration-date">Get expiration date</a></li>
+<li><a href="#resolve-nameaddress">Resolve name/address</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="whoisens-rest-api">WhoisENS REST API</h1>
+<blockquote>
+<p>API: v1.0.0<br>
+Document revision: v1.0.1</p>
+</blockquote>
+<p>Endpoint: <a href="https://api.whoisens.org">https://api.whoisens.org</a></p>
+<p>Provided REST API allows you to resolve Ethereum names into addresses and vise-versa, getting information about Ethereum name , and contract addresses and methods that was called.</p>
+<h2 id="get-name-owner">Get Name owner</h2>
+<h3 id="get-nameowneraddress">GET /name/owner/<em>:address</em></h3>
+<p>Gets info about <strong>owner</strong> of Ethereum address.</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Ethereum address, e.g. <strong>whoisens.eth</strong></td>
+</tr>
+</tbody>
+</table><p>Response</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span><span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"0x...."</span><span class="token punctuation">}</span>
+</code></pre>
+<h2 id="get-controller-owner">Get Controller owner</h2>
+<h3 id="get-registrarowneraddress">GET /registrar/owner/<em>:address</em></h3>
+<p>Gets info about <strong>controller</strong> of Ethereum address (who allows to make changes to that name).</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Ethereum name or address e.g. <strong>whoisens.eth</strong></td>
+</tr>
+</tbody>
+</table><p>Response</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span><span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"0x...."</span><span class="token punctuation">}</span>
+</code></pre>
+<h2 id="get-expiration-date">Get expiration date</h2>
+<h3 id="get-registrarexpiresaddress">GET /registrar/expires/<em>:address</em></h3>
+<p>Gets info when name is expires. Result returns in UNIX time (in seconds).</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Ethereum address, e.g. <strong>whoisens.eth</strong></td>
+</tr>
+</tbody>
+</table><p>Response</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span><span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token number">1588711276</span><span class="token punctuation">}</span>
+</code></pre>
+<h2 id="resolve-nameaddress">Resolve name/address</h2>
+<h3 id="get-resolveaddress">GET /resolve/<em>:address</em></h3>
+<p>Resolve name to address if name is provided, and resolve address to name if revert name is exists in ENS.</p>
+<p>Also return content hash (ipfs:// or bzz://) for forward lookup (if name is provided) if it presents in ENS.</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Ethereum name or address e.g. <strong>whoisens.eth</strong>, <strong>0xf304e…</strong>, <strong>f304e…55ad9.addr.reverse</strong></td>
+</tr>
+</tbody>
+</table><p>If <em>address</em> parameter is a <strong>name</strong>, e.g. <strong>whoisens.eth</strong>, then <strong>address</strong> will be returned. If <em>address</em> parameter is an <strong>address</strong>, e.g. <strong>0xf304e…</strong>, <strong>f304e…55ad9.addr.reverse</strong>, then Ethereum name will be returned if reverse record exists.</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Ethereum address, e.g. <strong>whoisens.eth</strong></td>
+</tr>
+</tbody>
+</table><p>Response for name (forward lookup)</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"forward"</span><span class="token punctuation">,</span>
+  <span class="token string">"address"</span><span class="token punctuation">:</span><span class="token string">"0x..."</span><span class="token punctuation">,</span>
+  <span class="token string">"content"</span><span class="token punctuation">:</span><span class="token string">"ipfs://&lt;HASH HERE&gt;"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Response for address (reverse lookup)</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"reverse"</span><span class="token punctuation">,</span>
+  <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"xxxxxxx.eth"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+
+    </div>
+  </div>
+</body>
+
+</html>
