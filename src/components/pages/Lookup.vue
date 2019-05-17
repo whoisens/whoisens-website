@@ -28,6 +28,8 @@
     <div class="loading-content" v-else>
       <LoadingInfo />
     </div>
+
+    <Footer />
   </div>
 </template>
 
@@ -41,6 +43,7 @@
 
     import Search from '../widgets/Search.vue';
     import Header from '../widgets/Header.vue';
+    import Footer from '../widgets/Footer.vue';
 
     import {EthAddressType, utils} from 'whoisens-lib';
 
@@ -53,7 +56,8 @@
             LookupReverse,
 
             Search,
-            Header
+            Header,
+            Footer
         }
     }) export default class Lookup extends Vue {
         get isErrorClass() {

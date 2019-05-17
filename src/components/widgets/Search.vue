@@ -1,7 +1,7 @@
 <template>
   <div class="cmp-widget cmp-widget-search">
     <form @submit.prevent="doLookup">
-      <input autofocus name="address" placeholder="whoisens.eth" v-model="addressValue" />
+      <input autofocus name="address" placeholder="name.eth, 0xHASH, HASH.addr.reverse" v-model="addressValue" />
       <button :disabled="!addressValue" type="submit">Lookup</button>
     </form>
   </div>
@@ -30,8 +30,6 @@
 
 <style lang="scss">
   .cmp-widget-search {
-    grid-area: 2/2;
-
     form {
       margin: 20px 0 0 0;
       white-space: nowrap;
@@ -39,6 +37,33 @@
 
     input, button {
       font-size: calc(8px + 1vw + 1vh + .5vmin);
+    }
+
+    input {
+      background: transparent;
+      border: none;
+      border-bottom: 2px dashed #fb6d00b0;
+      border-radius: 0;
+      outline: none;
+
+      &::placeholder {
+        font-size: 19px;
+      }
+
+      &:hover {
+      }
+    }
+
+    button {
+      background-color: transparent;
+      color: #fb6d00b0;
+      border: 2px solid #fb6d00b0;
+      transition: all 0.5s;
+
+      &:hover {
+        background-color: #fb6d00d6;
+        color: #333;
+      }
     }
   }
 </style>

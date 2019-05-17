@@ -71,12 +71,12 @@
     .arrow {
       transform: rotate(90deg);
       display: inline-block;
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
       transition: transform 0.2s;
       user-select: none;
       position: relative;
-      color: #756b05;
+      color: #fb6d00;
       margin: 0 5px;
       width: 15px;
       height: 15px;

@@ -6,7 +6,7 @@ body {
 }
 
 a {
-    color: rgb(0, 100, 200);
+    color: #038ab9;
     text-decoration: none;
 }
 
@@ -32,21 +32,21 @@ input, button, select, textarea {
     border-radius: 2px;
 }
 
-input:disabled {
-    color: #ccc;
-}
+/*input:disabled {*/
+/*    color: #ccc;*/
+/*}*/
 
 button {
-    background-color: #f4f4f4;
+    /*background-color: #f4f4f4;*/
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;
 }
 
-button:active, button:hover {
-    background-color: #ddd;
-}
+/*button:active, button:hover {*/
+/*    background-color: #ddd;*/
+/*}*/
 
-button:focus {
-    border-color: #666;
-}
+/*button:focus {*/
+/*    border-color: #666;*/
+/*}*/
