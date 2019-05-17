@@ -79,11 +79,11 @@
         }
 
         get contractAddress() {
-            return this.$props.data && this.$props.data.contractAddress;
+            return this.$props.data && this.$props.data.ethRCP.request.contractAddress;
         }
 
         get contractMethod() {
-            return this.$props.data && this.$props.data.contractMethod;
+            return this.$props.data && this.$props.data.ethRCP.request.contractMethod;
         }
 
         get contractURL() {

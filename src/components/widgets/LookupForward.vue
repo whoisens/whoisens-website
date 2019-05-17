@@ -1,16 +1,16 @@
 <template>
   <li>
     <div class="title">
-      <h3>Forward lookup [{{ lookupAddress }}]</h3>
+      <h3>Forward lookup [{{ result.ethAddress }}]</h3>
     </div>
     <div class="info">
       <ul>
         <li>
-          <Collapse :data="result.resolverAddress" title="Pointed address"></Collapse>
+          <Collapse :data="result.addressResult" title="Pointed address"></Collapse>
         </li>
 
         <li>
-          <Collapse :data="result.resolverContentHash" :url="resolveContentHashResult"
+          <Collapse :data="result.contentHashResult" :url="resolveContentHashResult"
                     title="Pointed content"></Collapse>
         </li>
       </ul>
@@ -24,19 +24,16 @@
     import Collapse from '@/components/widgets/Collapse.vue';
 
     @Component({
-        props: {
-            lookupAddress: {
-                type: String
-            },
-            result: {
-                type: Object
-            }
-        }, components: {
+        components: {
             Collapse
         }
     }) export default class LookupForward extends Vue {
+        get result() {
+            return this.$store.state;
+        }
+
         get resolveContentHashResult() {
-            return this.$props.result && this.$props.result.resolverContentHash && this.$props.result.resolverContentHash.result;
+            return this.result && this.result.contentHashResult && this.result.contentHashResult.result;
         }
     }
 </script>

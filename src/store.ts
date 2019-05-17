@@ -1,48 +1,48 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {ENS, EthNameType, SetResponse, SetResponseError, Response} from 'whoisens-lib';
+import ENS, {EthAddressType, ISetResponse, ISetResponseError} from 'whoisens-lib';
 
 Vue.use(Vuex);
 
 const ens = new ENS();
 
-ens.on('setResponse', (data: SetResponse) => {
+ens.on(ENS.EVENT_SET_RESPONSE, (data: ISetResponse) => {
     store.dispatch('setResponse', data);
 });
 
-ens.on('ethName', (name: string) => {
-    store.dispatch('setEthName', name);
+ens.on(ENS.EVENT_ETH_ADDRESS, (name: string) => {
+    store.dispatch('setEthAddress', name);
 });
 
-ens.on('ethNameType', (type: string) => {
-    store.dispatch('setEthNameType', type);
+ens.on(ENS.EVENT_ETH_ADDRESS_TYPE, (type: string) => {
+    store.dispatch('setEthAddressType', type);
 });
 
 interface IState {
-    ethNameType: EthNameType | undefined;
-    ethName: string | undefined;
+    ethAddress: string | undefined;
+    ethAddressType: EthAddressType | undefined;
 
-    nameOwnerResult: object | undefined;
-    registrarOwnerResult: object | undefined;
-    registrarExpired: object | undefined;
-    resolverAddress: object | undefined;
-    resolverContentHash: object | undefined;
-    revertResolverResult: object | undefined;
+    ownerResult: object | undefined;
+    controllerResult: object | undefined;
+    expirationDateResult: object | undefined;
+    addressResult: object | undefined;
+    contentHashResult: object | undefined;
+    reverseRecordResult: object | undefined;
 
     [key: string]: any;
 }
 
 function getDefaultState(): IState {
     return {
-        ethNameType: undefined,
-        ethName: undefined,
+        ethAddress: undefined,
+        ethAddressType: undefined,
 
-        nameOwnerResult: undefined,
-        registrarOwnerResult: undefined,
-        registrarExpired: undefined,
-        resolverAddress: undefined,
-        resolverContentHash: undefined,
-        revertResolverResult: undefined
+        ownerResult: undefined,
+        controllerResult: undefined,
+        expirationDateResult: undefined,
+        addressResult: undefined,
+        contentHashResult: undefined,
+        reverseRecordResult: undefined
     };
 }
 
@@ -50,19 +50,19 @@ const store = new Vuex.Store({
     state: getDefaultState(),
 
     mutations: {
-        setEthName(state, name) {
-            state.ethName = name;
+        setEthAddress(state, address) {
+            state.ethAddress = address;
         },
 
-        setEthNameType(state, type: EthNameType) {
-            state.ethNameType = type;
+        setEthAddressType(state, type: EthAddressType) {
+            state.ethAddressType = type;
         },
 
-        setResponse(state, type: SetResponse) {
+        setResponse(state, type: ISetResponse) {
             state[type.resultName] = type.result;
         },
 
-        setResponseError(state, type: SetResponseError) {
+        setResponseError(state, type: ISetResponseError) {
             state[type.resultName] = type.error;
         },
 
@@ -78,19 +78,19 @@ const store = new Vuex.Store({
             await ens.getInfo();
         },
 
-        setEthName({commit}, name) {
-            commit('setEthName', name);
+        setEthAddress({commit}, name) {
+            commit('setEthAddress', name);
         },
 
-        setEthNameType({commit}, type: EthNameType) {
-            commit('setEthNameType', type);
+        setEthAddressType({commit}, type: EthAddressType) {
+            commit('setEthAddressType', type);
         },
 
-        setResponse({commit}, payload: SetResponse) {
+        setResponse({commit}, payload: ISetResponse) {
             commit('setResponse', payload);
         },
 
-        setResponseError({commit}, payload: SetResponseError) {
+        setResponseError({commit}, payload: ISetResponseError) {
             commit('setResponseError', payload);
         },
 

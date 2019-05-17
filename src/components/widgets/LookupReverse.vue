@@ -13,7 +13,7 @@
     <div class="info">
       <ul>
         <li>
-          <Collapse :data="result.revertResolverResult" :url="revertResolveURL"
+          <Collapse :data="result.reverseRecordResult" :url="revertResolveURL"
                     title="Pointed to Ethereum name"></Collapse>
         </li>
       </ul>
@@ -28,20 +28,21 @@
     import LoadingInfo from '../elements/LoadingInfo.vue';
 
     @Component({
-        props: {
-            reverseAddress: {
-                type: String
-            },
-            result: {
-                type: Object
-            }
-        }, components: {
+        components: {
             Collapse,
             LoadingInfo
         }
     }) export default class LookupForward extends Vue {
+        get result() {
+            return this.$store.state;
+        }
+
+        get reverseAddress() {
+            return this.result.reverseRecordResult && this.result.reverseRecordResult.data && this.result.reverseRecordResult.data.reverseAddress;
+        }
+
         get revertResolveResult() {
-            return this.$props.result.revertResolverResult && this.$props.result.revertResolverResult.result;
+            return this.result.reverseRecordResult && this.result.reverseRecordResult.result;
         }
 
         get revertResolveURL() {
@@ -49,7 +50,7 @@
         }
 
         get reverseAddressLoaded() {
-            return !!this.$store.state.revertResolverResult;
+            return !!this.result.reverseRecordResult;
         }
     }
 </script>

@@ -6,7 +6,7 @@
     <div class="error-content not-found" v-if="nameOwner && !found">
       <h2>Not found</h2>
     </div>
-    <div class="error-content legacy" v-else-if="result.registrarExpired && legacy">
+    <div class="error-content legacy" v-else-if="result.expirationDateResult && legacy">
       <p>Name was registered using old ENS. It should be migrated by
         <time datetime="2020-05-04">May 4th, 2020</time>
         otherwise it will be released. <a
@@ -18,12 +18,12 @@
       <h2>Incorrect Ethereum name</h2>
     </div>
     <ol v-else-if="isReverseEthName">
-      <LookupReverse :result="result" :reverseAddress="reverseAddress" />
+      <LookupReverse />
     </ol>
-    <ol v-else-if="result.registrarExpired && nameOwner">
-      <LookupNameInfo :lookupAddress="lookupAddress" :result="result" />
-      <LookupForward :lookupAddress="lookupAddress" :result="result" />
-      <LookupReverse :result="result" :reverseAddress="reverseAddress" />
+    <ol v-else-if="result.expirationDateResult && nameOwner">
+      <LookupNameInfo />
+      <LookupForward />
+      <LookupReverse v-if="reverseAddress" />
     </ol>
     <div class="loading-content" v-else>
       <LoadingInfo />
@@ -42,7 +42,7 @@
     import Search from '../widgets/Search.vue';
     import Header from '../widgets/Header.vue';
 
-    import {ENS, EthNameType} from 'whoisens-lib';
+    import {EthAddressType, utils} from 'whoisens-lib';
 
     @Component({
         components: {
@@ -56,42 +56,36 @@
             Header
         }
     }) export default class Lookup extends Vue {
-        private ens: ENS = new ENS();
-
         get isErrorClass() {
             return this.nameOwner && (!this.found || this.legacy) || this.incorrectEthName;
         }
 
         get incorrectEthName() {
-            return this.$store.state.ethNameType === EthNameType.error;
+            return this.$store.state.ethAddressType === EthAddressType.error;
         }
 
         get isReverseEthName() {
-            return this.$store.state.ethNameType === EthNameType.address;
-        }
-
-        get lookupAddress() {
-            return this.$store.state.ethName;
+            return this.$store.state.ethAddressType === EthAddressType.address;
         }
 
         get reverseAddress() {
-            return this.$store.state.revertResolverResult && this.$store.state.revertResolverResult.data.reverseAddress;
+            return this.$store.state.reverseRecordResult && this.$store.state.reverseRecordResult.data && this.$store.state.reverseRecordResult.data.reverseAddress;
         }
 
         get nameOwner() {
-            return this.$store.state.nameOwnerResult && this.$store.state.nameOwnerResult.result;
+            return this.$store.state.ownerResult && this.$store.state.ownerResult.result;
         }
 
         get expires() {
-            return this.$store.state.registrarExpired && this.$store.state.registrarExpired.result;
+            return this.$store.state.expirationDateResult && this.$store.state.expirationDateResult.result;
         }
 
         get found() {
-            return this.nameOwner !== '0x';
+            return utils.isResult(this.nameOwner);
         }
 
         get legacy() {
-            return this.$store.state.registrarExpired && !this.expires;
+            return this.$store.state.expirationDateResult && !this.expires;
         }
 
         get result() {

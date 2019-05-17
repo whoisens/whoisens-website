@@ -1,20 +1,20 @@
 <template>
   <li>
     <div class="title">
-      <h3>Name information [{{ lookupAddress }}]</h3>
+      <h3>Name information [{{ result.ethAddress }}]</h3>
     </div>
     <div class="info">
       <ul>
         <li>
-          <Collapse :data="result.nameOwnerResult" title="Name owner"></Collapse>
+          <Collapse :data="result.ownerResult" title="Name owner"></Collapse>
         </li>
 
         <li>
-          <Collapse :data="result.registrarOwnerResult" title="Registrar owner"></Collapse>
+          <Collapse :data="result.controllerResult" title="Controller owner"></Collapse>
         </li>
 
         <li>
-          <Collapse :data="registrarExpired" :noLink="true" title="Expired"></Collapse>
+          <Collapse :data="expirationDateResult" :noLink="true" title="Expires"></Collapse>
         </li>
       </ul>
     </div>
@@ -28,25 +28,22 @@
 
 
     @Component({
-        props: {
-            lookupAddress: {
-                type: String
-            },
-            result: {
-                type: Object
-            }
-        }, components: {
+        components: {
             Collapse
         }
     }) export default class LookupNameInfo extends Vue {
-        get registrarExpired() {
-            const registrarExpired = this.$props.result.registrarExpired;
+        get result() {
+            return this.$store.state;
+        }
 
-            if (!registrarExpired) return;
+        get expirationDateResult() {
+            const expirationDateResult = this.result.expirationDateResult;
+
+            if (!expirationDateResult) return;
 
             return {
-                ...registrarExpired,
-                result: this.formatDate(registrarExpired.result * 1000)
+                ...expirationDateResult,
+                result: this.formatDate(expirationDateResult.result * 1000)
             }
         }
 
