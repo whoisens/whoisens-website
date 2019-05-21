@@ -1,3 +1,10 @@
+## [0.0.5] - 2019-05-21
+
+### Changed
+- updated to whoisens-lib v1.0.0-beta.4
+- updated API doc
+
+
 ## [0.0.4] - 2019-05-17
 
 ### Changed
