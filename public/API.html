@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API</title>
+  <title>Testing .eth names</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
@@ -13,12 +13,15 @@
     <div class="stackedit__toc">
       
 <ul>
-<li><a href="#whoisens-rest-api">WhoisENS REST API</a>
+<li><a href="#whois-ens-rest-api">Whois ENS REST API</a></li>
+<li><a href="#interfaces">Interfaces</a></li>
+<li><a href="#rest-api">REST API</a>
 <ul>
 <li><a href="#get-name-owner">Get Name owner</a></li>
-<li><a href="#get-controller-owner">Get Controller owner</a></li>
 <li><a href="#get-expiration-date">Get expiration date</a></li>
+<li><a href="#get-controller-owner">Get Controller owner</a></li>
 <li><a href="#resolve-nameaddress">Resolve name/address</a></li>
+<li><a href="#resolve-content-ipfs-bzz">Resolve content ipfs:// bzz://</a></li>
 </ul>
 </li>
 </ul>
@@ -27,16 +30,122 @@
   </div>
   <div class="stackedit__right">
     <div class="stackedit__html">
-      <h1 id="whoisens-rest-api">WhoisENS REST API</h1>
+      <h1 id="whois-ens-rest-api">Whois ENS REST API</h1>
 <blockquote>
-<p>API: v1.0.0<br>
-Document revision: v1.0.1</p>
+<p>API Version: v2.0.0<br>
+Document Version: v2.0.0</p>
 </blockquote>
-<p>Endpoint: <a href="https://api.whoisens.org">https://api.whoisens.org</a></p>
-<p>Provided REST API allows you to resolve Ethereum names into addresses and vise-versa, getting information about Ethereum name , and contract addresses and methods that was called.</p>
+<p>Provided comprehensive REST API allows to get any info about Ethereum address.</p>
+<h1 id="interfaces">Interfaces</h1>
+<pre class=" language-typescript"><code class="prism  language-typescript"><span class="token keyword">export</span> <span class="token keyword">enum</span> EthAddressType <span class="token punctuation">{</span>
+    name <span class="token operator">=</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+    address <span class="token operator">=</span> <span class="token string">'address'</span><span class="token punctuation">,</span>
+    error <span class="token operator">=</span> <span class="token string">'error'</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">enum</span> ResolveType <span class="token punctuation">{</span>
+    forward <span class="token operator">=</span> <span class="token string">'forward'</span><span class="token punctuation">,</span>
+    reverse <span class="token operator">=</span> <span class="token string">'reverse'</span><span class="token punctuation">,</span>
+    error <span class="token operator">=</span> <span class="token string">'error'</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">ISetResponse</span> <span class="token punctuation">{</span>
+    resultName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    result<span class="token punctuation">:</span> Response<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">ISetResponseError</span> <span class="token punctuation">{</span>
+    resultName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    error<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IResponse</span> <span class="token punctuation">{</span>
+    requestedInfo<span class="token punctuation">:</span> IResponseRequestedInfo<span class="token punctuation">;</span>
+    responseInfo<span class="token punctuation">:</span> IResponseResponseInfo<span class="token punctuation">;</span>
+    ethRCP<span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">;</span>
+    error<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IResponseRequestedInfo</span> <span class="token punctuation">{</span>
+    address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    processingAddress<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IEthJSONRCP</span> <span class="token punctuation">{</span>
+    request<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        id<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+        contractAddress<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+        contractMethod<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+        payload<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+        parameters<span class="token punctuation">:</span> object<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    response<span class="token punctuation">:</span> IJSONRCPResponse
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IJSONRCPResponse</span> <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    jsonrpc<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    result<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    error<span class="token operator">?</span><span class="token punctuation">:</span> object
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IJSONRCPResponseResult</span> <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    data<span class="token punctuation">:</span> IJSONRCPResponse<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IResponseResponseInfo</span> <span class="token punctuation">{</span>
+    result<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span> <span class="token operator">|</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    data<span class="token operator">?</span><span class="token punctuation">:</span> IAdditionalDataInfo<span class="token punctuation">;</span>
+    ethRCP<span class="token operator">?</span><span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">;</span>
+    error<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IAdditionalDataInfo</span> <span class="token punctuation">{</span>
+    address<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    addressParent<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    addressType<span class="token operator">?</span><span class="token punctuation">:</span> EthAddressType<span class="token punctuation">;</span>
+    nameMain<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    resolveType<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    reverseAddress<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="rest-api">REST API</h1>
 <h2 id="get-name-owner">Get Name owner</h2>
 <h3 id="get-nameowneraddress">GET /name/owner/<em>:address</em></h3>
 <p>Gets info about <strong>owner</strong> of Ethereum address.</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Ethereum address, e.g. <strong>test8.test.whoisens.eth</strong></td>
+</tr>
+</tbody>
+</table><p>Response</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"ethRCP"</span><span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">,</span>
+    <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"0xf304e02ae3b43806181d1d341f72f5b440e55ad9"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">"address"</span><span class="token punctuation">:</span> <span class="token string">"test8.test.whoisens.eth"</span><span class="token punctuation">,</span>
+      <span class="token string">"nameMain"</span><span class="token punctuation">:</span> <span class="token string">"whoisens.eth"</span><span class="token punctuation">,</span>
+      <span class="token string">"addressParent"</span><span class="token punctuation">:</span> <span class="token string">"test.whoisens.eth"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="get-expiration-date">Get expiration date</h2>
+<h3 id="get-nameexpiresaddress">GET /name/expires/:address</h3>
+<p>Gets expiration date for Ethereum name. Result returns in UNIX time (in seconds).</p>
 
 <table>
 <thead>
@@ -54,10 +163,16 @@ Document revision: v1.0.1</p>
 </tr>
 </tbody>
 </table><p>Response</p>
-<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span><span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"0x...."</span><span class="token punctuation">}</span>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"ethRCP"</span><span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">,</span>
+    <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token number">1588734843</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> IAdditionalDataInfo
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
 </code></pre>
 <h2 id="get-controller-owner">Get Controller owner</h2>
-<h3 id="get-registrarowneraddress">GET /registrar/owner/<em>:address</em></h3>
+<h3 id="get-controllerowneraddress">GET /controller/owner/:address</h3>
 <p>Gets info about <strong>controller</strong> of Ethereum address (who allows to make changes to that name).</p>
 
 <table>
@@ -76,34 +191,17 @@ Document revision: v1.0.1</p>
 </tr>
 </tbody>
 </table><p>Response</p>
-<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span><span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"0x...."</span><span class="token punctuation">}</span>
-</code></pre>
-<h2 id="get-expiration-date">Get expiration date</h2>
-<h3 id="get-registrarexpiresaddress">GET /registrar/expires/<em>:address</em></h3>
-<p>Gets info when name is expires. Result returns in UNIX time (in seconds).</p>
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>address</td>
-<td>String</td>
-<td>Ethereum address, e.g. <strong>whoisens.eth</strong></td>
-</tr>
-</tbody>
-</table><p>Response</p>
-<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span><span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token number">1588711276</span><span class="token punctuation">}</span>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"ethRCP"</span><span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">,</span>
+    <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"0x...."</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> IAdditionalDataInfo
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
 </code></pre>
 <h2 id="resolve-nameaddress">Resolve name/address</h2>
-<h3 id="get-resolveaddress">GET /resolve/<em>:address</em></h3>
+<h3 id="get-resolveaddressaddress">GET /resolve/address/:address</h3>
 <p>Resolve name to address if name is provided, and resolve address to name if revert name is exists in ENS.</p>
-<p>Also return content hash (ipfs:// or bzz://) for forward lookup (if name is provided) if it presents in ENS.</p>
 
 <table>
 <thead>
@@ -139,16 +237,46 @@ Document revision: v1.0.1</p>
 </tbody>
 </table><p>Response for name (forward lookup)</p>
 <pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
-  <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"forward"</span><span class="token punctuation">,</span>
-  <span class="token string">"address"</span><span class="token punctuation">:</span><span class="token string">"0x..."</span><span class="token punctuation">,</span>
-  <span class="token string">"content"</span><span class="token punctuation">:</span><span class="token string">"ipfs://&lt;HASH HERE&gt;"</span>
-<span class="token punctuation">}</span>
+  <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"ethRCP"</span><span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">,</span>
+    <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"0x5b854fc85bb7b2b3bdb78bd8dd85832121bd082c"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+      <span class="token string">"resolveType"</span><span class="token punctuation">:</span> <span class="token string">"forward"</span><span class="token punctuation">,</span>  
+      <span class="token string">"address"</span><span class="token punctuation">:</span> <span class="token string">"whoisens.eth"</span><span class="token punctuation">,</span>  
+      <span class="token string">"nameMain"</span><span class="token punctuation">:</span> <span class="token string">"whoisens.eth"</span><span class="token punctuation">,</span>  
+      <span class="token string">"addressParent"</span><span class="token punctuation">:</span> <span class="token string">"eth"</span>  
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
 </code></pre>
 <p>Response for address (reverse lookup)</p>
 <pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
-  <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"reverse"</span><span class="token punctuation">,</span>
-  <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"xxxxxxx.eth"</span>
-<span class="token punctuation">}</span>
+  <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"ethRCP"</span><span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">,</span>
+    <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"whoisens.eth"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+      <span class="token string">"resolveType"</span><span class="token punctuation">:</span> <span class="token string">"reverse"</span><span class="token punctuation">,</span>  
+      <span class="token string">"reverseAddress"</span><span class="token punctuation">:</span> <span class="token string">"5b854fc85bb7b2b3bdb78bd8dd85832121bd082c.addr.reverse"</span><span class="token punctuation">,</span>  
+      <span class="token string">"address"</span><span class="token punctuation">:</span> <span class="token string">"0x5b854fc85bb7b2b3bdb78bd8dd85832121bd082c"</span><span class="token punctuation">,</span>  
+      <span class="token string">"addressParent"</span><span class="token punctuation">:</span> <span class="token string">"addr.reverse"</span>  
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>  
+</code></pre>
+<h2 id="resolve-content-ipfs-bzz">Resolve content ipfs:// bzz://</h2>
+<h3 id="get-resolvecontenthashaddress">GET /resolve/contenthash/:address</h3>
+<p>Also return content hash (ipfs:// or bzz://) for forward lookup (if name is provided) if it presents in ENS.</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"ethRCP"</span><span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">,</span>
+    <span class="token string">"result"</span><span class="token punctuation">:</span> <span class="token string">"ipfs://QmNxpPDsfY4vTm1VR1rzLJaZA7sfzyESdrPXNWbqqabW1a"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">"address"</span><span class="token punctuation">:</span> <span class="token string">"whoisens.eth"</span><span class="token punctuation">,</span>
+      <span class="token string">"nameMain"</span><span class="token punctuation">:</span> <span class="token string">"whoisens.eth"</span><span class="token punctuation">,</span>
+      <span class="token string">"addressParent"</span><span class="token punctuation">:</span> <span class="token string">"eth"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
 </code></pre>
 
     </div>

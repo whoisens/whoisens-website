@@ -1,7 +1,8 @@
 <template>
   <div class="cmp-widget cmp-widget-search">
     <form @submit.prevent="doLookup">
-      <input autofocus name="address" placeholder="name.eth, 0xHASH, HASH.addr.reverse" v-model="addressValue" />
+      <input autofocus name="address" placeholder="name.eth, 0xHASH, HASH.addr.reverse" spellcheck="false"
+             v-model="addressValue" />
       <button :disabled="!addressValue" type="submit">Lookup</button>
     </form>
   </div>
