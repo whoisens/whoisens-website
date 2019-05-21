@@ -14,7 +14,17 @@ Web service that provide Whois and ENS info about Ethereum names.
 3. Deploy and ensure it works
 
 ```bash
-npm run docker-deploy-dev
+npm run docker-deploy
+
+# or if no Node.js installed
+
+docker build . -t whoisens-website
+
+docker stop whoisens-website
+docker rm whoisens-website
+
+# see env/README.md how to run on existing env
+docker run -dit -p 80:80 -p 443:443 --name whoisens-website whoisens-website
 ```
 
 
