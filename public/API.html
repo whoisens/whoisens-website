@@ -14,7 +14,7 @@
       
 <ul>
 <li><a href="#whois-ens-rest-api">Whois ENS REST API</a></li>
-<li><a href="#interfaces">Interfaces</a></li>
+<li><a href="#used-interfaces">Used Interfaces</a></li>
 <li><a href="#rest-api">REST API</a>
 <ul>
 <li><a href="#get-name-owner">Get Name owner</a></li>
@@ -33,45 +33,18 @@
       <h1 id="whois-ens-rest-api">Whois ENS REST API</h1>
 <blockquote>
 <p>API Version: v2.0.0<br>
-Document Version: v2.0.0</p>
+Document Version: v2.0.1<br>
+REST API Endpoint: <a href="https://api.whoisens.org">https://api.whoisens.org</a></p>
 </blockquote>
 <p>Provided comprehensive REST API allows to get any info about Ethereum address.</p>
-<h1 id="interfaces">Interfaces</h1>
-<pre class=" language-typescript"><code class="prism  language-typescript"><span class="token keyword">export</span> <span class="token keyword">enum</span> EthAddressType <span class="token punctuation">{</span>
+<h1 id="used-interfaces">Used Interfaces</h1>
+<pre class=" language-typescript"><code class="prism  language-typescript"><span class="token keyword">enum</span> EthAddressType <span class="token punctuation">{</span>
     name <span class="token operator">=</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
     address <span class="token operator">=</span> <span class="token string">'address'</span><span class="token punctuation">,</span>
     error <span class="token operator">=</span> <span class="token string">'error'</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">export</span> <span class="token keyword">enum</span> ResolveType <span class="token punctuation">{</span>
-    forward <span class="token operator">=</span> <span class="token string">'forward'</span><span class="token punctuation">,</span>
-    reverse <span class="token operator">=</span> <span class="token string">'reverse'</span><span class="token punctuation">,</span>
-    error <span class="token operator">=</span> <span class="token string">'error'</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">ISetResponse</span> <span class="token punctuation">{</span>
-    resultName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    result<span class="token punctuation">:</span> Response<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">ISetResponseError</span> <span class="token punctuation">{</span>
-    resultName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    error<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IResponse</span> <span class="token punctuation">{</span>
-    requestedInfo<span class="token punctuation">:</span> IResponseRequestedInfo<span class="token punctuation">;</span>
-    responseInfo<span class="token punctuation">:</span> IResponseResponseInfo<span class="token punctuation">;</span>
-    ethRCP<span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">;</span>
-    error<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IResponseRequestedInfo</span> <span class="token punctuation">{</span>
-    address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    processingAddress<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IEthJSONRCP</span> <span class="token punctuation">{</span>
+<span class="token keyword">interface</span> <span class="token class-name">IEthJSONRCP</span> <span class="token punctuation">{</span>
     request<span class="token punctuation">:</span> <span class="token punctuation">{</span>
         id<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
         contractAddress<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
@@ -82,26 +55,14 @@ Document Version: v2.0.0</p>
     response<span class="token punctuation">:</span> IJSONRCPResponse
 <span class="token punctuation">}</span>
 
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IJSONRCPResponse</span> <span class="token punctuation">{</span>
+<span class="token keyword">interface</span> <span class="token class-name">IJSONRCPResponse</span> <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
     jsonrpc<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     result<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     error<span class="token operator">?</span><span class="token punctuation">:</span> object
 <span class="token punctuation">}</span>
 
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IJSONRCPResponseResult</span> <span class="token punctuation">{</span>
-    id<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-    data<span class="token punctuation">:</span> IJSONRCPResponse<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IResponseResponseInfo</span> <span class="token punctuation">{</span>
-    result<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span> <span class="token operator">|</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-    data<span class="token operator">?</span><span class="token punctuation">:</span> IAdditionalDataInfo<span class="token punctuation">;</span>
-    ethRCP<span class="token operator">?</span><span class="token punctuation">:</span> IEthJSONRCP<span class="token punctuation">;</span>
-    error<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IAdditionalDataInfo</span> <span class="token punctuation">{</span>
+<span class="token keyword">interface</span> <span class="token class-name">IAdditionalDataInfo</span> <span class="token punctuation">{</span>
     address<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     addressParent<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     addressType<span class="token operator">?</span><span class="token punctuation">:</span> EthAddressType<span class="token punctuation">;</span>

@@ -1,3 +1,10 @@
+## [0.0.6] - 2019-05-22
+
+### Changed
+- updated to whoisens-lib v1.0.0-beta.5
+- updated from infura to internal ethereum mainnet
+
+
 ## [0.0.5] - 2019-05-21
 
 ### Changed

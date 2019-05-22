@@ -19,7 +19,7 @@
         </a>
       </section>
       <section class="version">
-        <span>Version 0.0.5</span>
+        <span>Version 0.0.6</span>
       </section>
     </footer>
   </div>

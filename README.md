@@ -11,7 +11,7 @@ Web service that provide Whois and ENS info about Ethereum names.
 
 2. Copy SSL keys into `docker-files/certs` folder.
 
-3. Deploy and ensure it works
+3. Deploy
 
 ```bash
 npm run docker-deploy

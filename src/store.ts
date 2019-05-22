@@ -5,7 +5,7 @@ import ENS, {EthAddressType, ISetResponse, ISetResponseError} from 'whoisens-lib
 Vue.use(Vuex);
 
 const networkName = 'mainnet';
-const networkURL = `https://${networkName}.infura.io/v3/cd43214e1d7a423f9d28b517e3ce6321`;
+const networkURL = 'http://eth.gateway.whoisens.org';
 const ens = new ENS(networkName, networkURL);
 
 ens.on(ENS.EVENT_SET_RESPONSE, (data: ISetResponse) => {
