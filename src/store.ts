@@ -5,7 +5,7 @@ import ENS, {EthAddressType, ISetResponse, ISetResponseError} from 'whoisens-lib
 Vue.use(Vuex);
 
 const networkName = 'mainnet';
-const networkURL = 'http://eth.gateway.whoisens.org';
+const networkURL = 'https://eth.gateway.whoisens.org';
 const ens = new ENS(networkName, networkURL);
 
 ens.on(ENS.EVENT_SET_RESPONSE, (data: ISetResponse) => {
@@ -76,7 +76,7 @@ const store = new Vuex.Store({
     actions: {
         async getInfoForEthName({commit}, name) {
             commit('resetStore');
-            await ens.init(name);
+            ens.init(name);
             await ens.getInfo();
         },
 

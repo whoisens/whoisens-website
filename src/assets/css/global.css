@@ -32,21 +32,12 @@ input, button, select, textarea {
     border-radius: 2px;
 }
 
-/*input:disabled {*/
-/*    color: #ccc;*/
-/*}*/
+::-ms-clear {
+    display: none;
+}
 
 button {
-    /*background-color: #f4f4f4;*/
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;
 }
-
-/*button:active, button:hover {*/
-/*    background-color: #ddd;*/
-/*}*/
-
-/*button:focus {*/
-/*    border-color: #666;*/
-/*}*/
