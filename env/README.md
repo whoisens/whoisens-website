@@ -18,5 +18,5 @@ EXTERNAL_IP_WEBSITE=xxx.xxx.xxx.xxx
 iptables -t nat -I PREROUTING -d ${EXTERNAL_IP_WEBSITE} -p tcp --dport 80 -j DNAT --to 127.0.0.2:80
 iptables -t nat -I PREROUTING -d ${EXTERNAL_IP_WEBSITE} -p tcp --dport 443 -j DNAT --to 127.0.0.2:443
 
-docker start whoisens-website
+su alex -c 'docker start whoisens-website'
 ```
