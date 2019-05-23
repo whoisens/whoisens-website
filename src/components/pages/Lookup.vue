@@ -17,10 +17,10 @@
     <div class="error-content fatal" v-else-if="incorrectEthName">
       <h2>Incorrect Ethereum name</h2>
     </div>
-    <ol v-else-if="isReverseEthName">
+    <ol v-else-if="isReverseEthName" class="info reverse">
       <LookupReverse />
     </ol>
-    <ol v-else-if="result.expirationDateResult && nameOwner">
+    <ol v-else-if="result.expirationDateResult && nameOwner" class="info all">
       <LookupNameInfo />
       <LookupForward />
       <LookupReverse v-if="reverseAddress" />

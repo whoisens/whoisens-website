@@ -1,17 +1,17 @@
 <template>
   <div class="cmp-widget cmp-widget-collapse">
     <CollapseEl :isEnabled="!!contractAddress">
-        <span slot="title">
-            <span class="label">{{ title }}</span>
-            <span class="value">
-                <LoadingInfo :isLoading="!isLoaded">
-                    <span class="error" v-if="error">{{ error }}</span>
-                    <span v-else-if="!address">-</span>
-                    <Link :href="linkURL" v-else-if="!noLink">{{ address }}</Link>
-                    <span v-else>{{ address }}</span>
-                </LoadingInfo>
-            </span>
+      <span slot="title" class="title">
+        <span class="label">{{ title }}</span>
+        <span class="value">
+            <LoadingInfo :isLoading="!isLoaded">
+              <span class="error" v-if="error">{{ error }}</span>
+              <span v-else-if="!address">-</span>
+              <Link :href="linkURL" v-else-if="!noLink">{{ address }}</Link>
+              <span v-else>{{ address }}</span>
+            </LoadingInfo>
         </span>
+      </span>
       <div slot="content">
         <TechnicalInfo>
           <ul>

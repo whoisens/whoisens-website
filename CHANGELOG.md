@@ -1,3 +1,12 @@
+## [0.0.8] - 2019-05-23
+
+### Added
+- resolve test
+
+### Fixed
+- Edge
+
+
 ## [0.0.7] - 2019-05-23
 
 ### Changed
