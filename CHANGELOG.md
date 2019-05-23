@@ -1,3 +1,12 @@
+## [0.0.7] - 2019-05-23
+
+### Changed
+- updated to whoisens-lib v1.0.0-beta.6
+- added e2e test. Integrated with Browserstack
+- added travis ci
+- fix for Edge
+
+
 ## [0.0.6] - 2019-05-22
 
 ### Changed

@@ -1,5 +1,17 @@
 # WhoisENS.org
 
+<p>
+    <a href="https://travis-ci.org/whoisens/whoisens-website">
+        <img src="https://api.travis-ci.org/whoisens/whoisens-website.svg?branch=master" alt="Build status">
+    </a>
+    <a href="https://www.browserstack.com/automate/public-build/RE9PZXloT0FuUjJ6dS9XNnl1ZVlQYm9CVzlvT2F4cVVCbFhiNW9wZmlqQT0tLU1md21XdEE0WEx1MjFTbjc0d1pBQXc9PQ==--ffd224bee430fc12a69d51b2764610d2bc167d48%">
+        <img src='https://www.browserstack.com/automate/badge.svg?badge_key=RE9PZXloT0FuUjJ6dS9XNnl1ZVlQYm9CVzlvT2F4cVVCbFhiNW9wZmlqQT0tLU1md21XdEE0WEx1MjFTbjc0d1pBQXc9PQ==--ffd224bee430fc12a69d51b2764610d2bc167d48%'/>
+    </a>
+    <a href="https://github.com/whoisens/whoisens-lib/blob/master/LICENSE">
+        <img src="https://img.shields.io/npm/l/whoisens-lib.svg" alt="license">
+    </a>
+</p>
+
 Web service that provide Whois and ENS info about Ethereum names.
 
 
@@ -40,3 +52,10 @@ npm run docker-debug
 npm ci
 npm run serve
 ```
+
+
+### Sponsors
+
+<a href="https://www.browserstack.com">
+    <img src="./tests/e2e/Browserstack-logo.svg" alt="BrowserStack" />
+</a>

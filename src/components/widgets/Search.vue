@@ -43,7 +43,7 @@
     input {
       background: transparent;
       border: none;
-      border-bottom: 2px dashed #fb6d00b0;
+      border-bottom: 2px dashed rgba(251,109,0,0.7);
       border-radius: 0;
       outline: none;
 
@@ -57,12 +57,12 @@
 
     button {
       background-color: transparent;
-      color: #fb6d00b0;
-      border: 2px solid #fb6d00b0;
+      color: rgba(251,109,0,0.7);
+      border: 2px solid rgba(251,109,0,0.7);
       transition: all 0.5s;
 
       &:hover {
-        background-color: #fb6d00d6;
+        background-color: rgba(250,108,0,0.84);
         color: #333;
       }
     }
