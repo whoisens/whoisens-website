@@ -41,7 +41,7 @@
     import Link from '../elements/Link.vue';
     import TechnicalInfo from './TechnicalInfo.vue';
 
-    import {ContractNames, config} from 'whoisens-lib';
+    import {ContractNames, config} from 'whoisens-lib/dist/esm';
 
     @Component({
         props: {
@@ -79,11 +79,11 @@
         }
 
         get contractAddress() {
-            return this.$props.data && this.$props.data.ethRCP.request.contractAddress;
+            return this.$props.data && this.$props.data.ethRCP && this.$props.data.ethRCP.request.contractAddress;
         }
 
         get contractMethod() {
-            return this.$props.data && this.$props.data.ethRCP.request.contractMethod;
+            return this.$props.data && this.$props.data.ethRCP && this.$props.data.ethRCP.request.contractMethod;
         }
 
         get contractURL() {

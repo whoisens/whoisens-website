@@ -1,3 +1,14 @@
+## [0.0.9] - 2019-06-11
+
+### Fixed
+- JS error time to time #17
+- fix build error for browserstack #8
+
+
+### Changed
+- updated modules
+
+
 ## [0.0.8] - 2019-05-23
 
 ### Added

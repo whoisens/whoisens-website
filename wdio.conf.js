@@ -82,7 +82,8 @@ exports.config = {
     'os_version': 'Mojave',
     'browser': 'Safari',
     'browser_version': '12.0',
-    'resolution': '1024x768'
+    'resolution': '1024x768',
+    build: new Date().toISOString()
   }
     // , {
     //   'os': 'OS X',
@@ -214,16 +215,6 @@ exports.config = {
    */
   // Code to start browserstack local before start of test
   onPrepare: function(config, capabilities) {
-    // console.log("Connecting local");
-    // return new Promise(function(resolve, reject) {
-    //   exports.bs_local = new browserstack.Local();
-    //   exports.bs_local.start({'key': exports.config.key}, function(error) {
-    //     if (error) return reject(error);
-    //     console.log('Connected. Now testing...');
-    //
-    //     resolve();
-    //   });
-    // });
   },
   /**
    * Gets executed just before initialising the webdriver session and test framework. It allows you
@@ -322,8 +313,6 @@ exports.config = {
    */
   // Code to stop browserstack local after end of test
   onComplete: function(capabilties, specs) {
-    // exports.bs_local.stop(function() {
-    // });
   }
   /**
    * Gets executed when a refresh happens.
@@ -332,4 +321,4 @@ exports.config = {
    */
   //onReload: function(oldSessionId, newSessionId) {
   //}
-}
+};

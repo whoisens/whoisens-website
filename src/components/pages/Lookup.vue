@@ -45,7 +45,7 @@
     import Header from '../widgets/Header.vue';
     import Footer from '../widgets/Footer.vue';
 
-    import {EthAddressType, utils} from 'whoisens-lib';
+    import {EthAddressType, utils} from 'whoisens-lib/dist/esm';
 
     @Component({
         components: {

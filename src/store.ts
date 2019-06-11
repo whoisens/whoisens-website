@@ -1,12 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import ENS, {EthAddressType, ISetResponse, ISetResponseError} from 'whoisens-lib';
+import ENS, {EthAddressType, ISetResponse, ISetResponseError} from 'whoisens-lib/dist/esm';
 
 Vue.use(Vuex);
 
-const networkName = 'mainnet';
-const networkURL = 'https://eth.gateway.whoisens.org';
-const ens = new ENS(networkName, networkURL);
+const ens = new ENS();
 
 ens.on(ENS.EVENT_SET_RESPONSE, (data: ISetResponse) => {
     store.dispatch('setResponse', data);
