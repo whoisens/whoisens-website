@@ -3,4 +3,3 @@ node_js:
   - '12'
 before_script:
   - npm run serve & sleep 30
-  - npm run test:e2e
